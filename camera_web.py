@@ -91,14 +91,21 @@ class VideoCamera(object):
             (fX, fY, fW, fH) = self.faces
 
             roi = gray[fY:fY + fH, fX:fX + fW]
-            roi = cv2.resize(roi, (128, 128))
-            roi = roi.astype("float") / 255.0
-            transform = transforms.ToTensor()
+            # roi = cv2.resize(roi, (64, 64))
+            # roi = roi.astype("float") / 255.0
+            transform = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Resize((64)),
+                                    transforms.Normalize((0.5), (0.5))])
             # Convert the image to PyTorch tensor
             roi = transform(roi)
+
+            size = list(roi.size())
+            size.insert(1,3)
+            roi = torch.zeros(size, dtype=roi.dtype, device=roi.device)
+
+            # roi = torch.unsqueeze(transform(roi),0)
             # roi = torch.reshape(roi,(1,3,48,48))
-            # roi = img_to_array(roi)
-            # roi = np.expand_dims(roi, axis=0)
+
             net.eval()
             with torch.no_grad():
                 output = net(roi)
