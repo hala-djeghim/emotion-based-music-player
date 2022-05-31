@@ -4,4 +4,6 @@ Dataset :
 
 https://www.kaggle.com/datasets/jonathanoheix/face-expression-recognition-dataset
 
-https://github.com/WuJie1010/Facial-Expression-Recognition.Pytorch 
+## Application 
+
+to test the application run the app.py file : python3 app.py
